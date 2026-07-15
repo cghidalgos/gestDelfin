@@ -1,0 +1,41 @@
+services:
+  backend:
+    build: ./backend
+    container_name: gestdelfin-backend
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./backend/.env
+    environment:
+      # El navegador del profesor vive en localhost:3000 (origen para CORS)
+      FRONTEND_URL: http://localhost:3000
+      PORT: "3001"
+      # Recarga en caliente sobre volúmenes montados
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      # Código fuente en caliente
+      - ./backend:/app
+      # Volumen anónimo: conserva node_modules del contenedor (Linux),
+      # sin que el node_modules local (macOS) lo pise
+      - /app/node_modules
+
+  frontend:
+    build: ./frontend
+    container_name: gestdelfin-frontend
+    ports:
+      - "3003:3000"
+    env_file:
+      - ./frontend/.env.local
+    environment:
+      # Llamadas server-side de Next → backend dentro de la red Docker
+      BACKEND_URL: http://backend:3001
+      # Llamadas desde el navegador (bot de chat) → puerto publicado en el host
+      NEXT_PUBLIC_BACKEND_URL: http://localhost:3001
+      # Recarga en caliente sobre volúmenes montados
+      WATCHPACK_POLLING: "true"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
