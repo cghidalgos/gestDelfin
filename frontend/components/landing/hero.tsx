@@ -14,7 +14,7 @@ export function Hero() {
             Exámenes generados con IA
           </Badge>
           <h1 className="text-balance text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
-            Acompaña a cada estudiante hasta que domine cada tema de IA 
+            NO ACOMPAÑA a cada estudiante hasta que domine cada tema de IA 
           </h1>
           <p className="max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground">
             Delfín es la plataforma donde los profesores asignan exámenes personalizados y los estudiantes practican con
